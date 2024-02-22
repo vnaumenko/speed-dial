@@ -1,12 +1,20 @@
 import React from "react";
-import "./style.css";
+import "@/style/style.css";
 import { ChakraProvider } from "@chakra-ui/react";
-import { ModuleOne } from "@/modules/ModuleOne";
+import { theme } from "@/style/theme";
+import { Main } from "@/components/Main";
+import { AppProvider } from "@/store";
+import { Bookmarks } from "@/modules/Bookmarks";
+import { Tools } from "@/components/Tools";
 
 const App = () => {
   return (
-    <ChakraProvider>
-      <ModuleOne />
+    <ChakraProvider theme={theme}>
+      <AppProvider>
+        <Main tools={<Tools />}>
+          <Bookmarks />
+        </Main>
+      </AppProvider>
     </ChakraProvider>
   );
 };
