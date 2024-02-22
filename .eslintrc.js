@@ -29,7 +29,10 @@ module.exports = {
   rules: {
     "@typescript-eslint/quotes": ["error", "double"],
     "@typescript-eslint/semi": ["error", "always"],
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/consistent-type-assertions": "off",
     "react/no-array-index-key": "error",
+    "react/jsx-curly-brace-presence": "always",
     "@typescript-eslint/comma-dangle": ["error", "always-multiline"],
     "@typescript-eslint/explicit-function-return-type": "off",
     "prettier/prettier": ["warn"],
