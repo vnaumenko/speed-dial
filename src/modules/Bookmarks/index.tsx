@@ -1,34 +1,20 @@
-import { v4 } from "uuid";
-import style from "./style.module.css";
-import { type IBookmark } from "@/@types/bookmarks";
-import { useAppState } from "@/store";
-import React, { useState } from "react";
-import { Button, useDisclosure } from "@chakra-ui/react";
+import React from "react";
+import { Button } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
+import style from "./style.module.css";
+import { useAppState } from "@/store";
 import { BookmarkItem } from "@/components/BookmarkItem";
 import { AddOrEditBookmark } from "@/modules/AddOrEditBookmark";
 
-const getMock = () => {
-  return {
-    order: Math.random(),
-    id: v4(),
-    url: "https://google.com",
-    title: "Facebook",
-    image: "https://placekitten.com/32/32",
-  };
-};
-
-const MOCK: IBookmark[] = Array.from({ length: 10 }, getMock);
-
 const Bookmarks = () => {
   const {
-    state: { locked },
+    state: { locked, bookmarks },
     dispatch,
   } = useAppState();
 
   return (
     <div className={style.wrapper}>
-      {MOCK.map((bookmark) => (
+      {bookmarks.map((bookmark) => (
         <BookmarkItem bookmark={bookmark} key={bookmark.id} />
       ))}
       {!locked && (

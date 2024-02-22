@@ -1,38 +1,12 @@
+import type { Dispatch } from "react";
 import type { IBookmark } from "@/@types/bookmarks";
 import type { IWidget } from "@/@types/widgets";
-import type { Dispatch } from "react";
-
-interface AddBookmarkAction {
-  type: "@BOOKMARK/add";
-  payload: {
-    url: string;
-    title?: string;
-  };
-}
-
-interface RemoveBookmarkAction {
-  type: "@BOOKMARK/remove";
-  payload: string;
-}
-
-interface ToggleLockAction {
-  type: "@LOCK/toggle";
-  payload?: boolean;
-}
-
-interface AddOrEditBookmarkAction {
-  type: "@BOOKMARK/addOrEdit";
-  payload: {
-    mode: "add" | "edit";
-    id?: string;
-  } | null;
-}
-
-type Actions =
-  | AddBookmarkAction
-  | RemoveBookmarkAction
-  | ToggleLockAction
-  | AddOrEditBookmarkAction;
+import {
+  type addBookmarkAction,
+  type openBookmarkModalAction,
+  type removeBookmarkAction,
+  type toggleLockAction,
+} from "@/store/actions";
 
 interface IState {
   bookmarks: IBookmark[];
@@ -49,11 +23,29 @@ interface AppContextType {
   dispatch: Dispatch<Actions>;
 }
 
+interface AddBookmarkActionPayload {
+  url: string;
+  title?: string;
+}
+type RemoveBookmarkActionPayload = string;
+type ToggleLockActionPayload = boolean | never;
+type OpenBookmarkModalActionPayload = {
+  mode: "add" | "edit";
+  id?: string;
+} | null;
+
+type Actions =
+  | ReturnType<typeof addBookmarkAction>
+  | ReturnType<typeof removeBookmarkAction>
+  | ReturnType<typeof toggleLockAction>
+  | ReturnType<typeof openBookmarkModalAction>;
+
 export type {
   AppContextType,
   IState,
   Actions,
-  AddBookmarkAction,
-  RemoveBookmarkAction,
-  ToggleLockAction,
+  AddBookmarkActionPayload,
+  RemoveBookmarkActionPayload,
+  ToggleLockActionPayload,
+  OpenBookmarkModalActionPayload,
 };
