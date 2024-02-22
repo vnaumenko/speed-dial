@@ -1,5 +1,5 @@
-import React, { createContext, ReactNode, useContext, useMemo, useReducer } from "react";
-import { AppContextType, IState } from "@/store/types";
+import React, { createContext, type ReactNode, useContext, useMemo, useReducer } from "react";
+import type { AppContextType, IState } from "@/store/types";
 import { getFromLocalStorage } from "@/store/helpers";
 import { appReducer } from "@/store/reducer";
 

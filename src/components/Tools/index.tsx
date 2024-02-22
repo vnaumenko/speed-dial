@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Stack, useColorMode } from "@chakra-ui/react";
 import { SunIcon, MoonIcon, LockIcon, UnlockIcon } from "@chakra-ui/icons";
 import { useAppState } from "@/store";
+import { toggleLockAction } from "@/store/actions";
 
 const ThemeButton = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -32,7 +33,7 @@ const LockButton = () => {
       size={"sm"}
       variant="outline"
       onClick={() => {
-        dispatch({ type: "@LOCK/toggle" });
+        dispatch(toggleLockAction());
       }}
     >
       {locked ? "Разблокировать" : "Заблокировать"}
