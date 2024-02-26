@@ -2,9 +2,10 @@ import React from "react";
 import { Button } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import style from "./style.module.css";
+import { AddOrEditBookmark } from "@/components/AddOrEditBookmark";
 import { useAppState } from "@/store";
 import { BookmarkItem } from "@/components/BookmarkItem";
-import { AddOrEditBookmark } from "@/modules/AddOrEditBookmark";
+import { openBookmarkModalAction } from "@/store/actions";
 
 const Bookmarks = () => {
   const {
@@ -14,15 +15,20 @@ const Bookmarks = () => {
 
   return (
     <div className={style.wrapper}>
-      {bookmarks.map((bookmark) => (
-        <BookmarkItem bookmark={bookmark} key={bookmark.id} />
-      ))}
+      {bookmarks
+        .toSorted(
+          ({ countClick: aCountClick = 0 }, { countClick: bCountClick = 0 }) =>
+            bCountClick - aCountClick,
+        )
+        .map((bookmark) => (
+          <BookmarkItem bookmark={bookmark} key={bookmark.id} />
+        ))}
       {!locked && (
         <div className={style.addButtonWrapper}>
           <Button
             leftIcon={<AddIcon />}
             onClick={() => {
-              dispatch({ type: "@BOOKMARK/addOrEdit", payload: { mode: "add" } });
+              dispatch(openBookmarkModalAction("new"));
             }}
           >
             Добавить

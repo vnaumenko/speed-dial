@@ -3,6 +3,11 @@ import { pluginReact } from "@rsbuild/plugin-react";
 
 export default defineConfig({
   plugins: [pluginReact()],
+  output: {
+    distPath: {
+      root: "extension",
+    },
+  },
   html: {
     template: "./public/index.html",
   },

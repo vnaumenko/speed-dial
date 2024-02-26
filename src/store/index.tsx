@@ -1,15 +1,17 @@
 import React, { createContext, type ReactNode, useContext, useMemo, useReducer } from "react";
 import type { AppContextType, IState } from "@/store/types";
-import { getFromLocalStorage } from "@/store/helpers";
 import { appReducer } from "@/store/reducer";
+import { getFromLocalStorage } from "@/helpers/storage";
 
 const AppContext = createContext<AppContextType>({} as AppContextType);
 
 const initialState: IState = {
   bookmarks: [],
-  widgets: [],
+  clock1: { timeZone: "Europe/Moscow", hide: true },
+  clock2: { hide: false },
+  clock3: { timeZone: "Asia/Omsk", hide: true },
   locked: false,
-  modalAddOrEditBookmark: null,
+  addOrEditBookmarkModal: null,
 };
 
 const AppProvider = ({ children }: { children: ReactNode }) => {

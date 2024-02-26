@@ -1,17 +1,22 @@
-import React, { type CSSProperties, useEffect } from "react";
+import React, { type CSSProperties, type MouseEventHandler, useCallback, useEffect } from "react";
 import { IconButton, Tooltip, useColorModeValue } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import classNames from "classnames";
+import { logger } from "@rsbuild/core";
 import style from "./style.module.css";
 import type { IBookmark } from "@/@types/bookmarks";
 import { useAppState } from "@/store";
-import { removeBookmarkAction } from "@/store/actions";
+import { goToBookmarkAction, openBookmarkModalAction, removeBookmarkAction } from "@/store/actions";
+import { noun } from "@/helpers/noun";
 
 interface Props {
   bookmark: IBookmark;
 }
 
 const BookmarkItem = (props: Props) => {
-  const { bookmark } = props;
+  const {
+    bookmark: { url, title, id, image, countClick },
+  } = props;
 
   const {
     state: { locked },
@@ -22,42 +27,75 @@ const BookmarkItem = (props: Props) => {
 
   const value = useColorModeValue("var(--colors-gray-100)", "var(--colors-gray-900)");
 
+  const onClick = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (e) => {
+      const isMiddleClick = e.button === 1;
+      const isLeftClick = e.button === 0;
+
+      if (isLeftClick || isMiddleClick) {
+        if (!locked) {
+          e.preventDefault();
+        } else {
+          dispatch(goToBookmarkAction({ id, isMiddleClick }));
+        }
+      }
+    },
+    [locked, id],
+  );
+
   return (
     <div className={style.wrapper} style={{ "--hover-bg-color": value } as CSSProperties}>
-      <a
-        href={bookmark.url}
-        onClick={(e) => {
-          if (!locked) {
-            e.preventDefault();
-          }
-        }}
-        key={bookmark.id}
-        className={style.bookmark}
+      <Tooltip
+        isDisabled={!locked}
+        label={
+          <>
+            {title}
+            <br />
+            {url}
+            <br />
+            {countClick && countClick > 0
+              ? `${countClick} ${noun(countClick, ["переход", "перехода", "переходов"])}`
+              : null}
+          </>
+        }
+        textAlign="center"
+        openDelay={500}
       >
-        <img src={bookmark.image} alt={bookmark.title} />
-        <span>{bookmark.title}</span>
-      </a>
+        <button
+          onClick={onClick}
+          onAuxClick={onClick}
+          className={classNames(style.bookmark, { [style.bookmarkUnLocked]: !locked })}
+        >
+          <div className={style.bookmarkImage}>
+            <img src={image} alt={title} />
+          </div>
+          <span>{title}</span>
+        </button>
+      </Tooltip>
       {!locked && (
         <div className={style.tools}>
           <Tooltip label="Изменить">
             <IconButton
-              isRound={true}
-              size={"xs"}
+              isRound
+              size="xs"
               colorScheme="teal"
               aria-label="Изменить"
               fontSize="12px"
               icon={<EditIcon />}
+              onClick={() => {
+                dispatch(openBookmarkModalAction(id));
+              }}
             />
           </Tooltip>
           <Tooltip label="Удалить">
             <IconButton
-              isRound={true}
-              size={"xs"}
+              isRound
+              size="xs"
               colorScheme="teal"
               aria-label="Удалить"
               icon={<DeleteIcon />}
               onClick={() => {
-                dispatch(removeBookmarkAction(bookmark.id));
+                dispatch(removeBookmarkAction(id));
               }}
             />
           </Tooltip>

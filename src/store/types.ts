@@ -1,21 +1,26 @@
 import type { Dispatch } from "react";
 import type { IBookmark } from "@/@types/bookmarks";
-import type { IWidget } from "@/@types/widgets";
-import {
-  type addBookmarkAction,
-  type openBookmarkModalAction,
-  type removeBookmarkAction,
-  type toggleLockAction,
-} from "@/store/actions";
+import { type Actions } from "@/store/actions";
+
+interface IClockState {
+  hide: boolean;
+  timeZone?: string;
+}
+
+type AddOrEditBookmarkModalState = "new" | string | null;
 
 interface IState {
   bookmarks: IBookmark[];
-  widgets: IWidget[];
   locked: boolean;
-  modalAddOrEditBookmark: {
-    mode: "add" | "edit";
-    id?: string;
-  } | null;
+  /**
+   * new - add mode
+   * string - edit mode
+   * null - closed
+   */
+  addOrEditBookmarkModal: AddOrEditBookmarkModalState;
+  clock1: IClockState;
+  clock2: IClockState;
+  clock3: IClockState;
 }
 
 interface AppContextType {
@@ -27,25 +32,35 @@ interface AddBookmarkActionPayload {
   url: string;
   title?: string;
 }
-type RemoveBookmarkActionPayload = string;
-type ToggleLockActionPayload = boolean | never;
-type OpenBookmarkModalActionPayload = {
-  mode: "add" | "edit";
-  id?: string;
-} | null;
 
-type Actions =
-  | ReturnType<typeof addBookmarkAction>
-  | ReturnType<typeof removeBookmarkAction>
-  | ReturnType<typeof toggleLockAction>
-  | ReturnType<typeof openBookmarkModalAction>;
+interface GoToBookmarkActionPayload {
+  id: string;
+  isMiddleClick?: boolean;
+}
+
+interface EditBookmarkActionPayload extends AddBookmarkActionPayload {
+  id: string;
+}
+
+type RemoveBookmarkActionPayload = string;
+
+type ToggleLockActionPayload = boolean | void;
+
+type OpenBookmarkModalActionPayload = AddOrEditBookmarkModalState;
+
+interface ChangeClockStateActionPayload {
+  clock: "clock1" | "clock2" | "clock3";
+  clockState: Partial<IClockState>;
+}
 
 export type {
   AppContextType,
   IState,
-  Actions,
   AddBookmarkActionPayload,
+  GoToBookmarkActionPayload,
+  EditBookmarkActionPayload,
   RemoveBookmarkActionPayload,
   ToggleLockActionPayload,
+  ChangeClockStateActionPayload,
   OpenBookmarkModalActionPayload,
 };
