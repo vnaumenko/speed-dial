@@ -2,7 +2,7 @@ interface IBookmark {
   id: string;
   title: string;
   url: string;
-  order: number;
+  countClick?: number;
   image?: string;
 }
 

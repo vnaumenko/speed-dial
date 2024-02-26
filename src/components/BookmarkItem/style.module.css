@@ -2,8 +2,10 @@
     position: relative;
     border-radius: var(--radii-base);
     width: var(--space-32);
+
     &:hover {
         background-color: var(--hover-bg-color);
+
         .tools {
             opacity: 1;
             transform: translateX(-50%) translateY(-50%);
@@ -21,14 +23,25 @@
     height: 100%;
     align-items: center;
     justify-content: center;
-    line-height: 1;
     transition: all .3s;
+    line-height: var(--lineHeights-shorter);
 
-    > img {
-        width: 32px;
-        height: 32px;
-        object-fit: cover;
+    .bookmarkImage {
+        width: var(--space-12);
+        height: var(--space-12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
         border-radius: var(--radii-base);
+        overflow: hidden;
+        position: relative;
+        background-color: var(--colors-whiteAlpha-600);
+        > img {
+            width: 32px;
+            height: 32px;
+            object-fit: cover;
+            border-radius: var(--radii-base);
+        }
     }
 
     > span {
@@ -38,6 +51,10 @@
         width: 100%;
         text-overflow: ellipsis;
     }
+}
+
+.bookmarkUnLocked {
+    cursor: default;
 }
 
 .tools {

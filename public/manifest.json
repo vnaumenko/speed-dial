@@ -1,10 +1,14 @@
 {
-  "name": "Blank new tab page",
-  "description": "Uses the \"chrome_url_overrides\" manifest key by replacing the user's default new tab page with a new html file.",
-  "version": "0.3",
+  "name": "YASD - Yet Another Speed Dial",
+  "description": "A simple Speed Dial extension for Chrome",
+  "version": "0.1",
   "incognito": "split",
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
+  "permissions": [
+    "storage",
+    "favicon"
+  ],
   "manifest_version": 3
 }

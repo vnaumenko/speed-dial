@@ -1,21 +1,17 @@
 .grid {
     display: grid;
-    grid-template-columns: 1fr 2fr 2fr 1fr;
-    grid-template-rows: 2fr 2fr 1fr;
-    gap: var(--space-12);
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: min-content 1fr min-content;
+    gap: var(--space-8);
     height: 100%;
     grid-template-areas:
-            "widget1 main main widget2"
-            "widget3 main main widget4"
-            "widget5 widget6 widget7 widget8";
+            "tools tools tools"
+            "main main main"
+            "widget1 widget2 widget3";
 }
 
 .tools {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    padding: var(--space-3);
+    grid-area: tools;
 }
 
 .main {
@@ -32,24 +28,4 @@
 
 .widget3 {
     grid-area: widget3;
-}
-
-.widget4 {
-    grid-area: widget4;
-}
-
-.widget5 {
-    grid-area: widget5;
-}
-
-.widget6 {
-    grid-area: widget6;
-}
-
-.widget7 {
-    grid-area: widget7;
-}
-
-.widget8 {
-    grid-area: widget8;
 }

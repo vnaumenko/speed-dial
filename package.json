@@ -21,10 +21,12 @@
   "devDependencies": {
     "@rsbuild/core": "^0.4.3",
     "@rsbuild/plugin-react": "^0.4.3",
+    "@stylistic/eslint-plugin-js": "^1.6.2",
     "@types/react": "^18.2.47",
     "@types/react-dom": "^18.2.18",
     "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^7.0.1",
+    "chrome-types": "^0.1.269",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard-with-typescript": "^43.0.1",
