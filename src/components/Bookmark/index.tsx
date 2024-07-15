@@ -90,7 +90,7 @@ export const Bookmark: FC<Props> = (props) => {
       textAlign="center"
     >
       <Button {...buttonAttributes} onClick={onClick} onAuxClick={onClick}>
-        <ButtonContent title={title} src="https://placehold.co/32x32" />
+        <ButtonContent title={title} src={image} />
       </Button>
     </Tooltip>
   );

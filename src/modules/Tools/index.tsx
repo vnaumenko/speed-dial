@@ -30,14 +30,14 @@ const LockButton = () => {
     toggleEditMode,
   } = useStore();
 
-  const label = isEdit ? "Разблокировать" : "Заблокировать";
+  const label = isEdit ? "Заблокировать" : "Разблокировать";
 
   return (
     <Tooltip label={label} placement="left">
       <IconButton
         aria-label={label}
         isRound
-        icon={isEdit ? <LockIcon /> : <UnlockIcon />}
+        icon={isEdit ? <UnlockIcon /> : <LockIcon />}
         colorScheme="gray"
         size="sm"
         variant="outline"
