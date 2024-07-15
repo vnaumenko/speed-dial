@@ -1,0 +1,12 @@
+.wrapper {
+    &:hover, &:focus-within {
+        .tools {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-50%);
+        }
+    }
+}
+
+.tools {
+    transform: translateX(-50%) translateY(0);
+}

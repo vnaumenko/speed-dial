@@ -2,8 +2,7 @@ import React from "react";
 import { IconButton, Stack, Tooltip, useColorMode } from "@chakra-ui/react";
 import { SunIcon, MoonIcon, LockIcon, UnlockIcon } from "@chakra-ui/icons";
 import { GitHubIcon } from "@/icons/GitHubIcon";
-import { useAppState } from "@/store";
-import { toggleLockAction } from "@/store/actions";
+import { useStore } from "@/store";
 
 const ThemeButton = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -27,24 +26,22 @@ const ThemeButton = () => {
 
 const LockButton = () => {
   const {
-    state: { locked },
-    dispatch,
-  } = useAppState();
+    flags: { isEdit },
+    toggleEditMode,
+  } = useStore();
 
-  const label = locked ? "Разблокировать" : "Заблокировать";
+  const label = isEdit ? "Разблокировать" : "Заблокировать";
 
   return (
     <Tooltip label={label} placement="left">
       <IconButton
         aria-label={label}
         isRound
-        icon={locked ? <LockIcon /> : <UnlockIcon />}
+        icon={isEdit ? <LockIcon /> : <UnlockIcon />}
         colorScheme="gray"
         size="sm"
         variant="outline"
-        onClick={() => {
-          dispatch(toggleLockAction());
-        }}
+        onClick={toggleEditMode}
       />
     </Tooltip>
   );
@@ -70,7 +67,7 @@ const GitHubButton = () => {
   );
 };
 
-const Tools = () => {
+export const Tools = () => {
   return (
     <Stack direction="row" spacing={8} justifyContent="space-between">
       <Stack direction="row" spacing={4} justifyContent="space-between">
@@ -83,5 +80,3 @@ const Tools = () => {
     </Stack>
   );
 };
-
-export { Tools };

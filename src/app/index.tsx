@@ -1,26 +1,28 @@
 import React from "react";
 import "@/style/style.css";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, Container } from "@chakra-ui/react";
+import style from "./style.module.css";
 import { theme } from "@/style/theme";
-import { Main } from "@/components/Main";
-import { AppProvider } from "@/store";
 import { Bookmarks } from "@/modules/Bookmarks";
-import { Tools } from "@/components/Tools";
-import { Clock } from "@/modules/Clock";
+import { Tools } from "@/modules/Tools";
+import { Clocks } from "@/modules/Clocks";
 
 const App = () => {
   return (
     <ChakraProvider theme={theme}>
-      <AppProvider>
-        <Main
-          tools={<Tools />}
-          widgetOne={<Clock type="clock1" />}
-          widgetTwo={<Clock type="clock2" />}
-          widgetThree={<Clock type="clock3" />}
-        >
-          <Bookmarks />
-        </Main>
-      </AppProvider>
+      <Container maxWidth="container.xl" minWidth="2xl" height="100dvh" padding={8}>
+        <div className={style.grid}>
+          <div className={style.tools}>
+            <Tools />
+          </div>
+          <div className={style.main}>
+            <Bookmarks />
+          </div>
+          <div className={style.clocks}>
+            <Clocks />
+          </div>
+        </div>
+      </Container>
     </ChakraProvider>
   );
 };

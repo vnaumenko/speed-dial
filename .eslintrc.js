@@ -27,6 +27,7 @@ module.exports = {
   },
   plugins: ["react", "@stylistic/js"],
   rules: {
+    "@typescript-eslint/prefer-nullish-coalescing": "off",
     "@typescript-eslint/quotes": ["error", "double"],
     "@typescript-eslint/semi": ["error", "always"],
     "@typescript-eslint/no-non-null-assertion": "off",
@@ -37,14 +38,19 @@ module.exports = {
     "@typescript-eslint/no-invalid-void-type": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-dynamic-delete": "off",
     "prettier/prettier": ["warn"],
+    "@typescript-eslint/consistent-type-definitions": ["error", "type"],
     "react/react-in-jsx-scope": "off",
     "react/jsx-boolean-value": ["error", "never"],
     "import/newline-after-import": ["error"],
     "prefer-template": "error",
     "import/order": ["error"],
     "import/no-unresolved": "off",
-    "no-unused-vars": ["error", { vars: "all", args: "after-used", ignoreRestSiblings: false }],
+    "no-unused-vars": [
+      "error",
+      { vars: "all", args: "after-used", ignoreRestSiblings: false, varsIgnorePattern: "^_" },
+    ],
     "react/jsx-curly-brace-presence": ["error", "never"],
   },
 };

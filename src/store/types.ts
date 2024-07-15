@@ -1,66 +1,37 @@
-import type { Dispatch } from "react";
-import type { IBookmark } from "@/@types/bookmarks";
-import { type Actions } from "@/store/actions";
+export type State = {
+  flags: {
+    isEdit: boolean;
+    bookmarkModal: "new" | string | null;
+  };
+  bookmarks: Record<
+    string,
+    {
+      id: string;
+      title: string;
+      url: string;
+      countClick: number;
+      image?: string;
+    }
+  >;
+  clocks: Record<
+    string,
+    {
+      id: string;
+      timeZone: string;
+    }
+  >;
+};
 
-interface IClockState {
-  hide: boolean;
-  timeZone?: string;
-}
-
-type AddOrEditBookmarkModalState = "new" | string | null;
-
-interface IState {
-  bookmarks: IBookmark[];
-  locked: boolean;
-  /**
-   * new - add mode
-   * string - edit mode
-   * null - closed
-   */
-  addOrEditBookmarkModal: AddOrEditBookmarkModalState;
-  clock1: IClockState;
-  clock2: IClockState;
-  clock3: IClockState;
-}
-
-interface AppContextType {
-  state: IState;
-  dispatch: Dispatch<Actions>;
-}
-
-interface AddBookmarkActionPayload {
-  url: string;
-  title?: string;
-}
-
-interface GoToBookmarkActionPayload {
-  id: string;
-  isMiddleClick?: boolean;
-}
-
-interface EditBookmarkActionPayload extends AddBookmarkActionPayload {
-  id: string;
-}
-
-type RemoveBookmarkActionPayload = string;
-
-type ToggleLockActionPayload = boolean | void;
-
-type OpenBookmarkModalActionPayload = AddOrEditBookmarkModalState;
-
-interface ChangeClockStateActionPayload {
-  clock: "clock1" | "clock2" | "clock3";
-  clockState: Partial<IClockState>;
-}
-
-export type {
-  AppContextType,
-  IState,
-  AddBookmarkActionPayload,
-  GoToBookmarkActionPayload,
-  EditBookmarkActionPayload,
-  RemoveBookmarkActionPayload,
-  ToggleLockActionPayload,
-  ChangeClockStateActionPayload,
-  OpenBookmarkModalActionPayload,
+export type Actions = {
+  toggleEditMode: () => void;
+  addBookmark: () => void;
+  createBookmark: (payload: { url: string; title?: string }) => void;
+  editBookmark: (payload: string) => void;
+  closeBookmarkModal: () => void;
+  removeBookmark: (payload: string) => void;
+  saveBookmark: (payload: { id: string; url: string; title?: string }) => void;
+  goToBookmark: (payload: { id: string; isMiddleClick?: boolean }) => void;
+  addClock: () => void;
+  removeClock: (payload: string) => void;
+  editClock: (payload: { id: string; timeZone: string }) => void;
 };
