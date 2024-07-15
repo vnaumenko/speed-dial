@@ -1,42 +1,74 @@
 import React from "react";
-import { Button } from "@chakra-ui/react";
+import { IconButton, Stack, Tooltip } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
-import style from "./style.module.css";
-import { AddOrEditBookmark } from "@/components/AddOrEditBookmark";
-import { useAppState } from "@/store";
-import { BookmarkItem } from "@/components/BookmarkItem";
-import { openBookmarkModalAction } from "@/store/actions";
+import { Modal } from "./Modal";
+import { useStore } from "@/store";
+import { Bookmark } from "@/components/Bookmark";
 
 const Bookmarks = () => {
   const {
-    state: { locked, bookmarks },
-    dispatch,
-  } = useAppState();
+    bookmarks,
+    flags: { isEdit, bookmarkModal },
+    goToBookmark,
+    removeBookmark,
+    editBookmark,
+    addBookmark,
+  } = useStore();
 
   return (
-    <div className={style.wrapper}>
-      {bookmarks
-        .toSorted(
-          ({ countClick: aCountClick = 0 }, { countClick: bCountClick = 0 }) =>
-            bCountClick - aCountClick,
-        )
-        .map((bookmark) => (
-          <BookmarkItem bookmark={bookmark} key={bookmark.id} />
-        ))}
-      {!locked && (
-        <div className={style.addButtonWrapper}>
-          <Button
-            leftIcon={<AddIcon />}
-            onClick={() => {
-              dispatch(openBookmarkModalAction("new"));
-            }}
-          >
-            Добавить
-          </Button>
-        </div>
-      )}
-      <AddOrEditBookmark />
-    </div>
+    <>
+      <Stack flexDirection="row" flexWrap="wrap" justifyContent="center">
+        {Object.values(bookmarks)
+          .toSorted(
+            ({ countClick: countClickA }, { countClick: countClickB }) => countClickB - countClickA,
+          )
+          .map(({ id, url, image, countClick, title }) => (
+            <Bookmark
+              isEdit={isEdit}
+              title={title}
+              url={url}
+              key={id}
+              countClick={countClick}
+              image={image}
+              removeBookmark={() => {
+                removeBookmark(id);
+              }}
+              editBookmark={() => {
+                editBookmark(id);
+              }}
+              onClick={(event) => {
+                const isMiddleClick = event.button === 1;
+                const isLeftClick = event.button === 0;
+
+                if (isLeftClick || isMiddleClick) {
+                  if (isEdit) {
+                    event.preventDefault();
+                  } else {
+                    goToBookmark({ id, isMiddleClick });
+                  }
+                }
+              }}
+            />
+          ))}
+        {isEdit ? (
+          <Tooltip label="Добавить закладку">
+            <IconButton
+              aria-label="Добавить закладку"
+              width={32}
+              height="auto"
+              size="lg"
+              minHeight={12}
+              variant="outline"
+              icon={<AddIcon />}
+              onClick={addBookmark}
+            >
+              Добавить
+            </IconButton>
+          </Tooltip>
+        ) : null}
+      </Stack>
+      {bookmarkModal !== null ? <Modal id={bookmarkModal} /> : null}
+    </>
   );
 };
 

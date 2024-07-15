@@ -1,4 +1,4 @@
-const getFaviconURL = (url: string): string => {
+export const getFaviconURL = (url: string): string => {
   // @ts-expect-error
   if (!chrome.runtime) return "";
 
@@ -11,5 +11,3 @@ const getFaviconURL = (url: string): string => {
 
   return imageUrl.toString();
 };
-
-export { getFaviconURL };

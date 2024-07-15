@@ -1,0 +1,26 @@
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content 1fr min-content;
+    gap: var(--space-8);
+    height: 100%;
+    grid-template-areas:
+        "tools"
+        "main"
+        "clocks";
+}
+
+.tools {
+    grid-area: tools;
+}
+
+.main {
+    grid-area: main;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.clocks {
+    grid-area: clocks;
+}

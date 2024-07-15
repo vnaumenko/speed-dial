@@ -1,7 +1,7 @@
 {
   "name": "YASD - Yet Another Speed Dial",
   "description": "A simple Speed Dial extension for Chrome",
-  "version": "0.1",
+  "version": "1.0",
   "incognito": "split",
   "chrome_url_overrides": {
     "newtab": "index.html"
