@@ -1,7 +1,7 @@
 {
   "name": "speed-dial",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.2",
   "scripts": {
     "dev": "rsbuild dev --open",
     "build": "rsbuild build && zip-cli -i ./extension -o extension.zip",
