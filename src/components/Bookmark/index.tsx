@@ -2,7 +2,6 @@ import React, { type FC, type MouseEventHandler } from "react";
 import { Button, IconButton, Tooltip, Stack, type ButtonProps, Box } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import styles from "./style.module.css";
-import { noun } from "@/helpers/noun";
 import { ButtonContent } from "@/components/Bookmark/ButtonContent";
 
 type Props = {
@@ -14,10 +13,16 @@ type Props = {
   onClick: MouseEventHandler<HTMLButtonElement>;
   removeBookmark: () => void;
   editBookmark: () => void;
+  texts: {
+    edit: string;
+    remove: string;
+    visit: (count: number) => string;
+  };
 };
 
 export const Bookmark: FC<Props> = (props) => {
-  const { isEdit, url, title, image, editBookmark, removeBookmark, countClick, onClick } = props;
+  const { isEdit, url, title, image, editBookmark, removeBookmark, countClick, onClick, texts } =
+    props;
 
   const buttonAttributes: ButtonProps = {
     width: 32,
@@ -47,23 +52,23 @@ export const Bookmark: FC<Props> = (props) => {
           transitionDuration=".3s"
           className={styles.tools}
         >
-          <Tooltip label="Изменить">
+          <Tooltip label={texts.edit}>
             <IconButton
               isRound
               size="xs"
               colorScheme="teal"
-              aria-label="Изменить"
+              aria-label={texts.edit}
               fontSize="12px"
               icon={<EditIcon />}
               onClick={editBookmark}
             />
           </Tooltip>
-          <Tooltip label="Удалить">
+          <Tooltip label={texts.remove}>
             <IconButton
               isRound
               size="xs"
               colorScheme="teal"
-              aria-label="Удалить"
+              aria-label={texts.remove}
               icon={<DeleteIcon />}
               onClick={removeBookmark}
             />
@@ -82,9 +87,7 @@ export const Bookmark: FC<Props> = (props) => {
           <br />
           {url}
           <br />
-          {countClick
-            ? `${countClick} ${noun(countClick, ["переход", "перехода", "переходов"])}`
-            : null}
+          {countClick ? `${countClick} ${texts.visit(countClick)}` : null}
         </>
       }
       textAlign="center"

@@ -39,6 +39,8 @@ module.exports = {
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-dynamic-delete": "off",
+    "@typescript-eslint/no-floating-promises": "off",
+    "import/no-named-as-default-member": "off",
     "prettier/prettier": ["warn"],
     "@typescript-eslint/consistent-type-definitions": ["error", "type"],
     "react/react-in-jsx-scope": "off",

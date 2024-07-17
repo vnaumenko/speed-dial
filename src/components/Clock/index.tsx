@@ -1,17 +1,21 @@
 import { useEffect, useRef } from "react";
 import { ButtonGroup, Heading, IconButton, Select, Stack, Text, Tooltip } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
-import { getDate, getHumanTimeZone, getTime } from "@/helpers/dates";
+import { getDate, getHumanTimeZone, getTime, getTimeZones } from "@/helpers/dates";
 
-interface Props {
+type Props = {
   timeZone: string;
   isEdit: boolean;
   editClock: (newTimeZone: string) => void;
   removeClock: () => void;
-}
+  locale: string;
+  texts: {
+    removeClock: string;
+  };
+};
 
 const Clock = (props: Props) => {
-  const { timeZone, isEdit, editClock, removeClock } = props;
+  const { timeZone, isEdit, editClock, removeClock, texts, locale } = props;
 
   const timeElementRef = useRef<HTMLHeadingElement>(null);
   const dateElementRef = useRef<HTMLParagraphElement>(null);
@@ -19,22 +23,22 @@ const Clock = (props: Props) => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (dateElementRef.current !== null) {
-        dateElementRef.current.innerText = getDate(timeZone);
+        dateElementRef.current.innerText = getDate(timeZone, locale);
       }
       if (timeElementRef.current !== null) {
-        timeElementRef.current.innerText = getTime(timeZone);
+        timeElementRef.current.innerText = getTime(timeZone, locale);
       }
     }, 1000);
 
     return () => {
       clearInterval(interval);
     };
-  }, [timeZone]);
+  }, [timeZone, locale]);
 
   return (
     <Stack flexDirection="column" columnGap={1} textAlign="center">
-      <Text ref={dateElementRef}>{getDate(timeZone)}</Text>
-      <Heading ref={timeElementRef}>{getTime(timeZone)}</Heading>
+      <Text ref={dateElementRef}>{getDate(timeZone, locale)}</Text>
+      <Heading ref={timeElementRef}>{getTime(timeZone, locale)}</Heading>
       {isEdit ? (
         <ButtonGroup>
           <Select
@@ -43,21 +47,18 @@ const Clock = (props: Props) => {
             }}
             value={timeZone}
           >
-            {Intl.supportedValuesOf("timeZone")
-              .map((timeZone) => {
-                return [timeZone, getHumanTimeZone(timeZone)];
-              })
-              .toSorted((timeZoneA, timeZoneB) => timeZoneA[1].localeCompare(timeZoneB[1]))
-              .map((timeZone) => (
-                <option key={timeZone[0]} value={timeZone[0]}>
-                  {timeZone[1]}
-                </option>
-              ))}
+            {getTimeZones().map((timeZone) => (
+              <option key={timeZone[0]} value={timeZone[0]}>
+                {timeZone[1]}
+              </option>
+            ))}
           </Select>
-          <Tooltip label="Удалить часы">
-            <IconButton aria-label="Удалить часы" icon={<DeleteIcon />} onClick={removeClock}>
-              Удалить
-            </IconButton>
+          <Tooltip label={texts.removeClock}>
+            <IconButton
+              aria-label={texts.removeClock}
+              icon={<DeleteIcon />}
+              onClick={removeClock}
+            />
           </Tooltip>
         </ButtonGroup>
       ) : (

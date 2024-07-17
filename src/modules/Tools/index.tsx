@@ -1,13 +1,16 @@
 import React from "react";
-import { IconButton, Stack, Tooltip, useColorMode } from "@chakra-ui/react";
+import { IconButton, Select, Stack, Tooltip, useColorMode } from "@chakra-ui/react";
 import { SunIcon, MoonIcon, LockIcon, UnlockIcon } from "@chakra-ui/icons";
+import { useTranslation } from "react-i18next";
 import { GitHubIcon } from "@/icons/GitHubIcon";
 import { useStore } from "@/store";
 
 const ThemeButton = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
-  const label = `Включить ${colorMode === "light" ? "темную" : "светлую"} тему`;
+  const { t } = useTranslation();
+
+  const label = t(colorMode === "light" ? "turnDarkTheme" : "turnLightTheme");
 
   return (
     <Tooltip label={label} placement="left">
@@ -30,7 +33,9 @@ const LockButton = () => {
     toggleEditMode,
   } = useStore();
 
-  const label = isEdit ? "Заблокировать" : "Разблокировать";
+  const { t } = useTranslation();
+
+  const label = t(isEdit ? "block" : "unblock");
 
   return (
     <Tooltip label={label} placement="left">
@@ -48,7 +53,9 @@ const LockButton = () => {
 };
 
 const GitHubButton = () => {
-  const label = "Внеси свой вклад в развитие проекта!";
+  const { t } = useTranslation();
+
+  const label = t("gitHubLabel");
 
   return (
     <Tooltip label={label} placement="right">
@@ -67,13 +74,42 @@ const GitHubButton = () => {
   );
 };
 
+const LangSelect = () => {
+  const { t, i18n } = useTranslation();
+
+  const {
+    flags: { isEdit },
+  } = useStore();
+
+  const label = t("selectLang");
+
+  if (!isEdit) return null;
+
+  return (
+    <Tooltip label={label} placement="left">
+      <Select
+        variant="filled"
+        size="sm"
+        value={i18n.language}
+        onChange={(event) => {
+          i18n.changeLanguage(event.target.value);
+        }}
+      >
+        <option value="en">{t("lang", { lng: "en" })}</option>
+        <option value="ru">{t("lang", { lng: "ru" })}</option>
+      </Select>
+    </Tooltip>
+  );
+};
+
 export const Tools = () => {
   return (
-    <Stack direction="row" spacing={8} justifyContent="space-between">
+    <Stack direction="row" spacing={8} justifyContent="space-between" alignItems="center">
       <Stack direction="row" spacing={4} justifyContent="space-between">
         <GitHubButton />
       </Stack>
-      <Stack direction="row" spacing={4} justifyContent="space-between">
+      <Stack direction="row" spacing={4} justifyContent="space-between" alignItems="center">
+        <LangSelect />
         <ThemeButton />
         <LockButton />
       </Stack>

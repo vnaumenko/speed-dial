@@ -1,4 +1,5 @@
 import { type FC } from "react";
+import { useTranslation } from "react-i18next";
 import { useStore } from "@/store";
 import { AddOrEditBookmarkModal } from "@/components/AddOrEditBookmarkModal";
 
@@ -8,6 +9,8 @@ type Props = {
 
 export const Modal: FC<Props> = (props) => {
   const { id } = props;
+
+  const { t } = useTranslation();
 
   const { bookmarks, createBookmark, saveBookmark, closeBookmarkModal } = useStore();
 
@@ -30,17 +33,15 @@ export const Modal: FC<Props> = (props) => {
           saveBookmark({ id: bookmarks[id].id, ...formValues });
         }
       }}
-      texts={
-        id === "new"
-          ? {
-              title: "Добавить закладку",
-              buttonText: "Добавить",
-            }
-          : {
-              title: "Редактировать закладку",
-              buttonText: "Сохранить",
-            }
-      }
+      texts={{
+        title: t(id === "new" ? "addBookmark" : "editBookmark"),
+        buttonText: t(id === "new" ? "add" : "save"),
+        urlLabel: t("urlLabel"),
+        urlPlaceholder: t("urlPlaceholder"),
+        urlError: t("urlError"),
+        titleLabel: t("titleLabel"),
+        titlePlaceholder: t("titlePlaceholder"),
+      }}
       onClose={closeBookmarkModal}
     />
   );
