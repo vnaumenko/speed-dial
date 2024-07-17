@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Card, CardBody, Stack } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { useStore } from "@/store";
 import { Clock } from "@/components/Clock";
 
@@ -11,6 +12,8 @@ export const Clocks = () => {
     removeClock,
     addClock,
   } = useStore();
+
+  const { t, i18n } = useTranslation();
 
   return (
     <Stack flexDirection="row" gap="4" justifyContent="center" flexWrap="wrap">
@@ -26,6 +29,10 @@ export const Clocks = () => {
               removeClock={() => {
                 removeClock(id);
               }}
+              locale={i18n.language}
+              texts={{
+                removeClock: t("removeClock"),
+              }}
             />
           </CardBody>
         </Card>
@@ -34,7 +41,7 @@ export const Clocks = () => {
         <Card width={48} textAlign="center">
           <CardBody padding={4} alignItems="end" display="flex">
             <Button onClick={addClock} width="full">
-              Добавить часы
+              {t("addClock")}
             </Button>
           </CardBody>
         </Card>

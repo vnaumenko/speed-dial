@@ -1,6 +1,7 @@
 import React from "react";
 import { IconButton, Stack, Tooltip } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
+import { useTranslation } from "react-i18next";
 import { Modal } from "./Modal";
 import { useStore } from "@/store";
 import { Bookmark } from "@/components/Bookmark";
@@ -14,6 +15,10 @@ const Bookmarks = () => {
     editBookmark,
     addBookmark,
   } = useStore();
+
+  const { t } = useTranslation();
+
+  const addBookmarkLabel = t("addBookmark");
 
   return (
     <>
@@ -30,6 +35,11 @@ const Bookmarks = () => {
               key={id}
               countClick={countClick}
               image={image}
+              texts={{
+                edit: t("edit"),
+                remove: t("remove"),
+                visit: (count) => t("visit", { count }),
+              }}
               removeBookmark={() => {
                 removeBookmark(id);
               }}
@@ -51,9 +61,9 @@ const Bookmarks = () => {
             />
           ))}
         {isEdit ? (
-          <Tooltip label="Добавить закладку">
+          <Tooltip label={addBookmarkLabel}>
             <IconButton
-              aria-label="Добавить закладку"
+              aria-label={addBookmarkLabel}
               width={32}
               height="auto"
               size="lg"
@@ -62,7 +72,7 @@ const Bookmarks = () => {
               icon={<AddIcon />}
               onClick={addBookmark}
             >
-              Добавить
+              {t("add")}
             </IconButton>
           </Tooltip>
         ) : null}

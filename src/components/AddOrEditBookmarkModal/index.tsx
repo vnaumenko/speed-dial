@@ -35,6 +35,11 @@ type Props = {
   texts: {
     title: string;
     buttonText: string;
+    urlLabel: string;
+    urlPlaceholder: string;
+    urlError: string;
+    titleLabel: string;
+    titlePlaceholder: string;
   };
 };
 
@@ -85,26 +90,24 @@ export const AddOrEditBookmarkModal: FC<Props> = (props) => {
         <ModalBody>
           <Stack spacing={3}>
             <FormControl isInvalid={urlHasError} isRequired>
-              <FormLabel>Введите URL</FormLabel>
+              <FormLabel>{texts.urlLabel}</FormLabel>
               <Input
                 type="url"
                 size="lg"
                 value={formValues.url}
                 onChange={handlerInput("url")}
                 autoFocus
-                placeholder="Например: https://google.com"
+                placeholder={texts.urlPlaceholder}
               />
-              {urlHasError && !urlEmpty && (
-                <FormErrorMessage>Введите корректный URL</FormErrorMessage>
-              )}
+              {urlHasError && !urlEmpty && <FormErrorMessage>{texts.urlError}</FormErrorMessage>}
             </FormControl>
             <FormControl>
-              <FormLabel>Введите название</FormLabel>
+              <FormLabel>{texts.titleLabel}</FormLabel>
               <Input
                 size="lg"
                 value={formValues.title ?? ""}
                 onChange={handlerInput("title")}
-                placeholder="Например: Google"
+                placeholder={texts.titlePlaceholder}
               />
             </FormControl>
           </Stack>
