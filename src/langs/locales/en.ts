@@ -28,5 +28,11 @@ export const en = {
     urlError: "Enter a valid URL",
     titleLabel: "Enter title",
     titlePlaceholder: "For example: Google",
+    selectSize: "Select interface size",
+    size_xs: "Extra small",
+    size_sm: "Small",
+    size_md: "Medium",
+    size_lg: "Large",
+    size_xl: "Extra large",
   },
 };

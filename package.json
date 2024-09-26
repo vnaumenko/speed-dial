@@ -1,7 +1,7 @@
 {
   "name": "speed-dial",
   "private": true,
-  "version": "1.0.15",
+  "version": "1.0.16",
   "scripts": {
     "dev": "rsbuild dev --open",
     "build": "rimraf extension ./extension.zip && bun utils/updateVersion.ts && rsbuild build && zip-cli -i ./extension -o extension.zip",

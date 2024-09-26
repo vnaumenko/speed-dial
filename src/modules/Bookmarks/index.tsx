@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton, Stack, Tooltip } from "@chakra-ui/react";
+import { Box, IconButton, Stack, Tooltip } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { useTranslation } from "react-i18next";
 import { Modal } from "./Modal";
@@ -61,20 +61,22 @@ const Bookmarks = () => {
             />
           ))}
         {isEdit ? (
-          <Tooltip label={addBookmarkLabel}>
-            <IconButton
-              aria-label={addBookmarkLabel}
-              width={32}
-              height="auto"
-              size="lg"
-              minHeight={12}
-              variant="outline"
-              icon={<AddIcon />}
-              onClick={addBookmark}
-            >
-              {t("add")}
-            </IconButton>
-          </Tooltip>
+          <Box display="flex" width="100%" justifyContent="center">
+            <Tooltip label={addBookmarkLabel}>
+              <IconButton
+                aria-label={addBookmarkLabel}
+                width={32}
+                height="auto"
+                size="lg"
+                minHeight={12}
+                variant="outline"
+                icon={<AddIcon />}
+                onClick={addBookmark}
+              >
+                {t("add")}
+              </IconButton>
+            </Tooltip>
+          </Box>
         ) : null}
       </Stack>
       {bookmarkModal !== null ? <Modal id={bookmarkModal} /> : null}

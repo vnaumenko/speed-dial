@@ -1,3 +1,11 @@
-body {
+html {
     font-size: 16px;
+}
+
+:root {
+    --global-size-xs: 12px;
+    --global-size-sm: 14px;
+    --global-size-md: 16px;
+    --global-size-lg: 18px;
+    --global-size-xl: 20px;
 }

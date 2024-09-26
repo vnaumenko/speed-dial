@@ -1,24 +1,34 @@
 import React, { useEffect } from "react";
-import "@/style/style.css";
-import { ChakraProvider, Container } from "@chakra-ui/react";
-import { I18nextProvider, useTranslation } from "react-i18next";
+import { Container } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import style from "./style.module.css";
-import { theme } from "@/style/theme";
 import { Bookmarks } from "@/modules/Bookmarks";
 import { Tools } from "@/modules/Tools";
 import { Clocks } from "@/modules/Clocks";
-import { i18n } from "@/langs";
+import { useStore } from "@/store";
 
 export const App = () => {
   const { t, i18n } = useTranslation();
+
+  const {
+    flags: { isEdit },
+  } = useStore();
 
   useEffect(() => {
     document.title = t("windowTitle");
     document.documentElement.lang = localStorage.getItem("lang") ?? i18n.language;
   }, [i18n.language]);
 
+  useEffect(() => {
+    if (isEdit) {
+      document.body.classList.add("isEdit");
+    } else {
+      document.body.classList.remove("isEdit");
+    }
+  }, [isEdit]);
+
   return (
-    <Container maxWidth="container.xl" minWidth="2xl" height="100dvh" padding={8}>
+    <Container maxWidth="container.xxl" minWidth="2xl" height="100dvh" padding={8}>
       <div className={style.grid}>
         <div className={style.tools}>
           <Tools />

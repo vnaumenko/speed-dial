@@ -28,5 +28,11 @@ export const ru = {
     urlError: "Введите корректный URL",
     titleLabel: "Введите заголовок",
     titlePlaceholder: "Например: Google",
+    selectSize: "Выберите размер интерфейса",
+    size_xs: "Очень маленький",
+    size_sm: "Маленький",
+    size_md: "Средний",
+    size_lg: "Большой",
+    size_xl: "Очень большой",
   },
 };
