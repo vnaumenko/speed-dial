@@ -11,7 +11,7 @@ export const ButtonContent: FC<Props> = (props) => {
 
   return (
     <>
-      <Image boxSize="32px" borderRadius="4" src={src} alt={title} />
+      <Image boxSize="8" borderRadius="4" src={src} alt={title} />
       <Text
         lineHeight={1.5}
         whiteSpace="nowrap"

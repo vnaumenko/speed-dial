@@ -2,11 +2,12 @@ import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
 import { v4 } from "uuid";
 import { immer } from "zustand/middleware/immer";
-import { type State, type Actions } from "@/store/types";
+import { type State, type Actions, type StateV1, StateV2 } from "./types";
+import { migrate } from "./upgrader";
 import { getHostByUrl } from "@/helpers/getHostByUrl";
 import { getFaviconURL } from "@/helpers/getFavicon";
 
-const CURRENT_VERSION = 2;
+export const CURRENT_VERSION = 3;
 
 const getTitle = (url: string, title?: string) => {
   if (title) return title;
@@ -128,16 +129,8 @@ export const useStore = create<State & Actions>()(
       {
         name: "state",
         version: CURRENT_VERSION,
-        migrate: (persistedState, version) => {
-          if (version === 1) {
-            // @ts-expect-error
-            persistedState.settings = {
-              ...initialState.settings,
-            };
-          }
-
-          return persistedState;
-        },
+        // @ts-expect-error
+        migrate: (oldState, version) => migrate(oldState, version),
       },
     ),
   ),
