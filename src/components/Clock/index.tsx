@@ -70,9 +70,15 @@ const Clock = (props: Props) => {
 
   return (
     <Stack flexDirection="column" rowGap={0} textAlign="center">
-      <Text ref={dateElementRef} fontSize="sm" _empty={{ display: "none" }} />
-      <Text ref={weekDayElementRef} fontSize="sm" _empty={{ display: "none" }} />
-      <Heading ref={timeElementRef} marginBlock={2} _empty={{ display: "none" }} />
+      <Text ref={dateElementRef} fontSize="sm">
+        {getDate(timeZone, locale)}
+      </Text>
+      <Text ref={weekDayElementRef} fontSize="sm">
+        {getWeekDay(timeZone, locale)}
+      </Text>
+      <Heading ref={timeElementRef} marginBlock={2}>
+        {getTime(timeZone, locale)}
+      </Heading>
       {isEdit ? (
         <InputGroup size="md">
           <Input
@@ -93,7 +99,7 @@ const Clock = (props: Props) => {
           </InputRightElement>
         </InputGroup>
       ) : (
-        <Text>{getHumanTimeZone(timeZone)}</Text>
+        <Text fontSize="sm">{getHumanTimeZone(timeZone)}</Text>
       )}
     </Stack>
   );
