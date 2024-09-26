@@ -6,6 +6,8 @@ import { type State, type Actions } from "@/store/types";
 import { getHostByUrl } from "@/helpers/getHostByUrl";
 import { getFaviconURL } from "@/helpers/getFavicon";
 
+const CURRENT_VERSION = 2;
+
 const getTitle = (url: string, title?: string) => {
   if (title) return title;
 
@@ -17,82 +19,23 @@ const initialState: State = {
     isEdit: true,
     bookmarkModal: null,
   },
+  settings: {
+    size: "md",
+  },
   bookmarks: {},
   clocks: {},
 };
-
-// @TODO remove next version
-const oldState = ((): State => {
-  const oldState = window.localStorage.getItem("state");
-
-  if (oldState === null) return initialState;
-
-  const parsedOldState = JSON.parse(oldState) as {
-    bookmarks: Array<State["bookmarks"][0]>;
-    clock1: { hide: boolean; timeZone?: string };
-    clock2: { hide: boolean; timeZone?: string };
-    clock3: { hide: boolean; timeZone?: string };
-    version?: number;
-  };
-
-  const hasOldState = parsedOldState.version === undefined;
-
-  if (hasOldState) {
-    const newClocks: State["clocks"] = {};
-
-    if (!parsedOldState.clock1.hide) {
-      const newId = v4();
-
-      newClocks[newId] = {
-        id: newId,
-        timeZone:
-          parsedOldState.clock1.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone,
-      };
-    }
-
-    if (!parsedOldState.clock2.hide) {
-      const newId = v4();
-
-      newClocks[newId] = {
-        id: newId,
-        timeZone:
-          parsedOldState.clock2.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone,
-      };
-    }
-
-    if (!parsedOldState.clock3.hide) {
-      const newId = v4();
-
-      newClocks[newId] = {
-        id: newId,
-        timeZone:
-          parsedOldState.clock3.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone,
-      };
-    }
-
-    const newBookmarks = parsedOldState.bookmarks.reduce(
-      (acc, bookmark) => ({
-        ...acc,
-        [bookmark.id]: bookmark,
-      }),
-      {},
-    );
-
-    return {
-      ...initialState,
-      bookmarks: newBookmarks,
-      clocks: newClocks,
-    };
-  }
-
-  return initialState;
-})();
 
 export const useStore = create<State & Actions>()(
   devtools(
     persist(
       immer((set) => ({
-        ...oldState,
+        ...initialState,
+        changeSize: (size) => {
+          set((state) => {
+            state.settings.size = size;
+          });
+        },
         toggleEditMode: () => {
           set((state) => {
             state.flags.isEdit = !state.flags.isEdit;
@@ -184,7 +127,17 @@ export const useStore = create<State & Actions>()(
       })),
       {
         name: "state",
-        version: 1,
+        version: CURRENT_VERSION,
+        migrate: (persistedState, version) => {
+          if (version === 1) {
+            // @ts-expect-error
+            persistedState.settings = {
+              ...initialState.settings,
+            };
+          }
+
+          return persistedState;
+        },
       },
     ),
   ),

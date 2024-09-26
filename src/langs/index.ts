@@ -27,8 +27,4 @@ i18n
     },
   });
 
-i18n.on("languageChanged", (lng) => {
-  document.documentElement.lang = lng;
-});
-
 export { i18n };

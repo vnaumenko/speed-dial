@@ -1,7 +1,12 @@
+export type Sizes = "xs" | "sm" | "md" | "lg" | "xl";
+
 export type State = {
   flags: {
     isEdit: boolean;
     bookmarkModal: "new" | string | null;
+  };
+  settings: {
+    size: Sizes;
   };
   bookmarks: Record<
     string,
@@ -23,6 +28,7 @@ export type State = {
 };
 
 export type Actions = {
+  changeSize: (payload: Sizes) => void;
   toggleEditMode: () => void;
   addBookmark: () => void;
   createBookmark: (payload: { url: string; title?: string }) => void;

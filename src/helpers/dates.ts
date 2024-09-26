@@ -1,7 +1,13 @@
 export const getDate = (timeZone: string, locale?: string) =>
   new Date().toLocaleDateString(locale ? `${locale}-${locale.toUpperCase()}` : undefined, {
     timeZone,
-    dateStyle: "full",
+    dateStyle: "long",
+  });
+
+export const getWeekDay = (timeZone: string, locale?: string) =>
+  new Date().toLocaleDateString(locale ? `${locale}-${locale.toUpperCase()}` : undefined, {
+    timeZone,
+    weekday: "long",
   });
 
 export const getTime = (timeZone: string, locale?: string) =>
@@ -15,9 +21,12 @@ export const getHumanTimeZone = (timeZone: string) =>
     .replaceAll("_", " ")
     .replaceAll("/", " / ");
 
-export const getTimeZones = () =>
-  Intl.supportedValuesOf("timeZone")
-    .map((timeZone) => {
-      return [timeZone, getHumanTimeZone(timeZone)];
-    })
-    .toSorted((timeZoneA, timeZoneB) => timeZoneA[1].localeCompare(timeZoneB[1]));
+export const getTimeZones = () => {
+  const timeZones = new Map<string, string>();
+
+  for (const timeZone of Intl.supportedValuesOf("timeZone")) {
+    timeZones.set(timeZone, getHumanTimeZone(timeZone));
+  }
+
+  return timeZones;
+};

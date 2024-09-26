@@ -3,6 +3,7 @@ import { Button, IconButton, Tooltip, Stack, type ButtonProps, Box } from "@chak
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import styles from "./style.module.css";
 import { ButtonContent } from "@/components/Bookmark/ButtonContent";
+import { cleanUrl } from "@/helpers/prepareUrl";
 
 type Props = {
   isEdit: boolean;
@@ -58,7 +59,6 @@ export const Bookmark: FC<Props> = (props) => {
               size="xs"
               colorScheme="teal"
               aria-label={texts.edit}
-              fontSize="12px"
               icon={<EditIcon />}
               onClick={editBookmark}
             />
@@ -85,7 +85,7 @@ export const Bookmark: FC<Props> = (props) => {
         <>
           {title}
           <br />
-          {url}
+          {cleanUrl(url)}
           <br />
           {countClick ? `${countClick} ${texts.visit(countClick)}` : null}
         </>

@@ -1,7 +1,20 @@
-import { useEffect, useRef } from "react";
-import { ButtonGroup, Heading, IconButton, Select, Stack, Text, Tooltip } from "@chakra-ui/react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  Button,
+  ButtonGroup,
+  Heading,
+  IconButton,
+  Input,
+  InputGroup,
+  InputRightAddon,
+  InputRightElement,
+  Select,
+  Stack,
+  Text,
+  Tooltip,
+} from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
-import { getDate, getHumanTimeZone, getTime, getTimeZones } from "@/helpers/dates";
+import { getDate, getWeekDay, getHumanTimeZone, getTime, getTimeZones } from "@/helpers/dates";
 
 type Props = {
   timeZone: string;
@@ -17,11 +30,15 @@ type Props = {
 const Clock = (props: Props) => {
   const { timeZone, isEdit, editClock, removeClock, texts, locale } = props;
 
-  const timeElementRef = useRef<HTMLHeadingElement>(null);
+  const weekDayElementRef = useRef<HTMLParagraphElement>(null);
   const dateElementRef = useRef<HTMLParagraphElement>(null);
+  const timeElementRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
+      if (weekDayElementRef.current !== null) {
+        weekDayElementRef.current.innerText = getWeekDay(timeZone, locale);
+      }
       if (dateElementRef.current !== null) {
         dateElementRef.current.innerText = getDate(timeZone, locale);
       }
@@ -35,32 +52,46 @@ const Clock = (props: Props) => {
     };
   }, [timeZone, locale]);
 
+  const timeZones = useMemo(() => getTimeZones(), []);
+
+  const renderDataList = () => {
+    const options = [];
+
+    for (const timeZone of timeZones.entries()) {
+      options.push(
+        <option key={timeZone[0]} value={timeZone[0]}>
+          {timeZone[1]}
+        </option>,
+      );
+    }
+
+    return options;
+  };
+
   return (
-    <Stack flexDirection="column" columnGap={1} textAlign="center">
-      <Text ref={dateElementRef}>{getDate(timeZone, locale)}</Text>
-      <Heading ref={timeElementRef}>{getTime(timeZone, locale)}</Heading>
+    <Stack flexDirection="column" rowGap={0} textAlign="center">
+      <Text ref={dateElementRef} fontSize="sm" _empty={{ display: "none" }} />
+      <Text ref={weekDayElementRef} fontSize="sm" _empty={{ display: "none" }} />
+      <Heading ref={timeElementRef} marginBlock={2} _empty={{ display: "none" }} />
       {isEdit ? (
-        <ButtonGroup>
-          <Select
+        <InputGroup size="md">
+          <Input
+            list="timeZones"
             onChange={(event) => {
               editClock(event.target.value);
             }}
-            value={timeZone}
-          >
-            {getTimeZones().map((timeZone) => (
-              <option key={timeZone[0]} value={timeZone[0]}>
-                {timeZone[1]}
-              </option>
-            ))}
-          </Select>
-          <Tooltip label={texts.removeClock}>
-            <IconButton
-              aria-label={texts.removeClock}
-              icon={<DeleteIcon />}
-              onClick={removeClock}
-            />
-          </Tooltip>
-        </ButtonGroup>
+            paddingRight={0}
+            value={timeZones.get(timeZone)}
+          />
+          <datalist id="timeZones">{renderDataList()}</datalist>
+          <InputRightElement marginRight={1}>
+            <Tooltip label={texts.removeClock}>
+              <Button aria-label={texts.removeClock} onClick={removeClock} size="sm">
+                <DeleteIcon />
+              </Button>
+            </Tooltip>
+          </InputRightElement>
+        </InputGroup>
       ) : (
         <Text>{getHumanTimeZone(timeZone)}</Text>
       )}

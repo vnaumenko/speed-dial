@@ -5,6 +5,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { App } from "./app";
 import { i18n } from "@/langs";
 import { theme } from "@/style/theme";
+import "@/style/style.css";
 
 const root = createRoot(document.getElementById("root")!);
 
