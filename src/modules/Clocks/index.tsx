@@ -1,46 +1,41 @@
-import React from "react";
-import { Box, Button, Card, CardBody, Stack } from "@chakra-ui/react";
+import { Box, Button, Card, Stack } from "@chakra-ui/react";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { useStore } from "@/store";
-import { Clock } from "@/components/Clock";
+import { Clock } from "./components/Clock";
 
-export const Clocks = () => {
+const Clocks = memo(() => {
   const {
     clocks,
     flags: { isEdit },
-    editClock,
-    removeClock,
     addClock,
   } = useStore();
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   return (
-    <Stack flexDirection="row" gap="4" justifyContent="center" flexWrap="wrap">
+    <Stack
+      flexDirection="row"
+      gap={{ base: 2, lg: 4 }}
+      flexWrap="wrap"
+      justifyContent="center"
+    >
       {Object.values(clocks).map(({ id, timeZone }) => (
-        <Card key={id} width={60}>
-          <CardBody padding={4} display="flex" flexDirection="column" justifyContent="center">
-            <Clock
-              timeZone={timeZone}
-              isEdit={isEdit}
-              editClock={(newTimeZone) => {
-                editClock({ id, timeZone: newTimeZone });
-              }}
-              removeClock={() => {
-                removeClock(id);
-              }}
-              locale={i18n.language}
-              texts={{
-                removeClock: t("removeClock"),
-              }}
-            />
-          </CardBody>
-        </Card>
+        <Card.Root key={id}>
+          <Card.Body
+            padding={4}
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+          >
+            <Clock timeZone={timeZone} id={id} />
+          </Card.Body>
+        </Card.Root>
       ))}
-      {isEdit ? (
+      {isEdit && (
         <Box display="flex" width="100%" justifyContent="center">
-          <Card width={60}>
-            <CardBody
+          <Card.Root>
+            <Card.Body
               padding={4}
               textAlign="center"
               display="flex"
@@ -50,10 +45,14 @@ export const Clocks = () => {
               <Button onClick={addClock} width="full">
                 {t("addClock")}
               </Button>
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
         </Box>
-      ) : null}
+      )}
     </Stack>
   );
-};
+});
+
+Clocks.displayName = "Clocks";
+
+export { Clocks };
