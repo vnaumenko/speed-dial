@@ -1,18 +1,15 @@
-export const getDate = (timeZone: string, locale?: string) =>
-  new Date().toLocaleDateString(locale ? `${locale}-${locale.toUpperCase()}` : undefined, {
+import { getLocaleFromLanguage } from "./locales";
+
+export const getDateWeekDay = (timeZone: string, language?: string) =>
+  new Date().toLocaleDateString(getLocaleFromLanguage(language), {
     timeZone,
-    dateStyle: "long",
+    dateStyle: "full",
   });
 
-export const getWeekDay = (timeZone: string, locale?: string) =>
-  new Date().toLocaleDateString(locale ? `${locale}-${locale.toUpperCase()}` : undefined, {
+export const getTime = (timeZone: string, language?: string) =>
+  new Date().toLocaleTimeString(getLocaleFromLanguage(language), {
     timeZone,
-    weekday: "long",
-  });
-
-export const getTime = (timeZone: string, locale?: string) =>
-  new Date().toLocaleTimeString(locale ? `${locale}-${locale.toUpperCase()}` : undefined, {
-    timeZone,
+    timeStyle: "short",
   });
 
 export const getHumanTimeZone = (timeZone: string) =>
@@ -20,13 +17,3 @@ export const getHumanTimeZone = (timeZone: string) =>
     .substring(timeZone.indexOf("/") + 1)
     .replaceAll("_", " ")
     .replaceAll("/", " / ");
-
-export const getTimeZones = () => {
-  const timeZones = new Map<string, string>();
-
-  for (const timeZone of Intl.supportedValuesOf("timeZone")) {
-    timeZones.set(timeZone, getHumanTimeZone(timeZone));
-  }
-
-  return timeZones;
-};

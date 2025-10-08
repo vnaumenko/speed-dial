@@ -6,8 +6,8 @@ const manifestPath = "./public/manifest.json";
 async function updateVersion() {
   try {
     // Чтение package.json
-    const packageData = await readFile(packagePath, "utf8");
-    const packageJson = JSON.parse(packageData);
+    const packageData = (await readFile(packagePath, "utf8")) as string;
+    const packageJson = JSON.parse(packageData) as { version: string };
 
     // Обновление версии в package.json
     const versionParts = packageJson.version.split(".").map(Number);
@@ -18,8 +18,8 @@ async function updateVersion() {
     console.log(`Updated package.json to version ${newVersion}`);
 
     // Чтение manifest.json
-    const manifestData = await readFile(manifestPath, "utf8");
-    const manifestJson = JSON.parse(manifestData);
+    const manifestData = (await readFile(manifestPath, "utf8")) as string;
+    const manifestJson = JSON.parse(manifestData) as { version: string };
 
     // Обновление версии в manifest.json
     manifestJson.version = newVersion;

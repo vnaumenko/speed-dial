@@ -1,5 +1,5 @@
 import { Image, Text } from "@chakra-ui/react";
-import React, { type FC } from "react";
+import type { FC } from "react";
 
 type Props = {
   title: string;
@@ -11,7 +11,14 @@ export const ButtonContent: FC<Props> = (props) => {
 
   return (
     <>
-      <Image boxSize="8" borderRadius="4" src={src} alt={title} />
+      <Image
+        boxSize="8"
+        borderRadius="4"
+        src={src || undefined}
+        alt={title}
+        css={{ textIndent: "-999px", overflow: "hidden" }}
+      />
+
       <Text
         lineHeight={1.5}
         whiteSpace="nowrap"

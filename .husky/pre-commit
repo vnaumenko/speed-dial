@@ -1,0 +1,10 @@
+echo "🔍 Running typecheck..."
+bun run typecheck
+
+echo "🧹 Running ESLint..."
+bun run lint
+
+echo "✨ Running Prettier..."
+bun run format:check
+
+echo "✅ All checks passed! Proceeding with commit..."

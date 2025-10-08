@@ -10,10 +10,10 @@
     "isolatedModules": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "Node",
+    "moduleResolution": "Bundler",
     "useDefineForClassFields": true,
     "paths": {
       "@/*": ["./src/*"]
     }
-  },
+  }
 }

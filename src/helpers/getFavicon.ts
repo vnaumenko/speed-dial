@@ -3,7 +3,6 @@ export const getFaviconURL = (url: string): string => {
   if (!chrome.runtime) return "";
 
   // @ts-expect-error
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const imageUrl = new URL(chrome.runtime.getURL("/_favicon/"));
 
   imageUrl.searchParams.set("pageUrl", url);

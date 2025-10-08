@@ -1,24 +1,26 @@
-import { extendTheme } from "@chakra-ui/react";
-import { type ChakraTheme } from "@chakra-ui/theme";
+import { createSystem, defaultConfig } from "@chakra-ui/react";
 
-const theme = extendTheme({
-  sizes: {
-    container: {
-      xxl: "1440px",
-    },
-  },
-  styles: {
-    global: {
-      body: {
-        background:
-          "radial-gradient(var(--colors-chakra-subtle-bg), var(--colors-chakra-body-bg));",
+const theme = createSystem(defaultConfig, {
+  theme: {
+    tokens: {
+      gradients: {
+        bodyBg: {
+          value: "",
+        },
       },
     },
   },
-  config: {
-    cssVarPrefix: "",
-    initialColorMode: "system",
+  utilities: {
+    extend: {
+      // @ts-expect-error
+      fieldSizing: {
+        values: ["content", "fixed"],
+        transform: (value: string) => ({
+          fieldSizing: value,
+        }),
+      },
+    },
   },
-} as unknown as ChakraTheme);
+});
 
 export { theme };

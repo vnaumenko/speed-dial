@@ -1,20 +1,22 @@
-import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
-import { ChakraProvider } from "@chakra-ui/react";
-import { App } from "./app";
 import { i18n } from "@/langs";
-import { theme } from "@/style/theme";
+import { App } from "./app";
 import "@/style/style.css";
+import { Provider } from "@/components/ui/provider";
 
-const root = createRoot(document.getElementById("root")!);
+const rootElement = document.getElementById("root");
+
+if (!rootElement) {
+  throw new Error("Root element not found");
+}
+
+const root = createRoot(rootElement);
 
 root.render(
-  <StrictMode>
-    <I18nextProvider i18n={i18n}>
-      <ChakraProvider theme={theme}>
-        <App />
-      </ChakraProvider>
-    </I18nextProvider>
-  </StrictMode>,
+  <I18nextProvider i18n={i18n}>
+    <Provider>
+      <App />
+    </Provider>
+  </I18nextProvider>,
 );
